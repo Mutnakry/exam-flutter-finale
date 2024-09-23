@@ -14,12 +14,14 @@ class _MyCartState extends State<Cart> {
       "name": "Product 1",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy7s3m2QbgNmGVmlzjYpTJ_LkHiKuDVjO-5C_n6T0Ow-_dWOobpv-5XBm0NyJcnFA9a14&usqp=CAU",
       "price": 20.0,
+      "color": 'red',
       "quantity": 1
     },
     {
       "name": "Product 2",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy7s3m2QbgNmGVmlzjYpTJ_LkHiKuDVjO-5C_n6T0Ow-_dWOobpv-5XBm0NyJcnFA9a14&usqp=CAU",
       "price": 15.0,
+      "color": 'red',
       "quantity": 2
     },
   ];
@@ -75,22 +77,34 @@ class _MyCartState extends State<Cart> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              item["name"],
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  item["name"],
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "\$${item["price"]}", // Fixed price display
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 8),
-                            Text("\$${item['price']}",
-                                style: TextStyle(color: Colors.grey, fontSize: 16)),
                             SizedBox(height: 8),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Qty: ${item['quantity']}',
-                                  style: TextStyle(fontSize: 16),
+                                  'Size: ${item['quantity']}', // Clearer label
+                                ),
+                                Text(
+                                  'Color: ${item['color']}', // Clearer label
                                 ),
 
+                                IconButton(
+                                  icon: Icon(Icons.plus_one_rounded, color: Colors.red),
+                                  onPressed: () {}, // Remove item
+                                ),
                               ],
                             ),
                           ],
@@ -102,23 +116,11 @@ class _MyCartState extends State<Cart> {
               },
             ),
           ),
-          // Cart Total and Checkout Button
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Total: \$${getTotalPrice().toStringAsFixed(2)}",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle checkout process
-                  },
-                  child: Text("Checkout"),
-                ),
-              ],
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Total: \$${getTotalPrice().toStringAsFixed(2)}', // Display total price
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
         ],

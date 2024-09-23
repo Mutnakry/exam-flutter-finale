@@ -1,334 +1,150 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final List<Map<String, dynamic>> cartItems = [
+    {
+      "name": "T-Green",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLB1Xmnyld7RNWSCnnJQrsHp3N4AydAsFdjw&s",
+      "price": 20.00,
+      "detail": "អាវបុរស៉",
+      "quantity": 1
+    },
+    {
+      "name": "Pro",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy7s3m2QbgNmGVmlzjYpTJ_LkHiKuDVjO-5C_n6T0Ow-_dWOobpv-5XBm0NyJcnFA9a14&usqp=CAU",
+      "price": 5.00,
+      "detail": "អាវសាច់ក្រណាត់",
+      "quantity": 2
+    },
+    {
+      "name": "Pro",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiMA_zPRN-P4esmwfPrtHariWX9n4QArbXLIJMK5R5sVIxytvHXIbJ_1W5IQQfW_icEyk&usqp=CAU",
+      "price": 10.00,
+      "detail": "sale",
+      "quantity": 2
+    },{
+      "name": "Pro",
+      "image": "https://contents.mediadecathlon.com/p1609859/k60949b527a9b662dd66080915b0a2526/prod.jpg?format=auto&quality=40&f=400x400",
+      "price": 15.0,
+      "detail": "អាវកីឡាក្រុម - Decathlon",
+      "quantity": 2
+    },
+
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Stack(
-          children: <Widget>[
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          actions: [
             Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20)
-                ),
+              padding: const EdgeInsets.all(10),
+              child: const Icon(
+                Icons.search,
+                size: 28,
               ),
             ),
-            ListView(
-              children: [
-                GridView.count(
-                  crossAxisCount:2,
-                  shrinkWrap: true,
-                  physics:const NeverScrollableScrollPhysics(),
-                  children:<Widget> [
-                    Card(
-                      child: InkWell(
-                        onTap: (){},
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                          width: MediaQuery.of(context).size.width / 2,
-                          padding: const EdgeInsets.all(0),
-                          decoration: const BoxDecoration(),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 140,
-                                child: Image.network(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLB1Xmnyld7RNWSCnnJQrsHp3N4AydAsFdjw&s',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(height: 4,),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('អាវ',style: TextStyle(color:Colors.purple,fontWeight: FontWeight.bold,fontSize: 16),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('s shirts',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('\$12',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                    Icon(Icons.favorite_border, size: 24),
-                                  ],
-                                ),
+          ],
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'New Arrivals'), // First Tab
+              Tab(text: 'Popular'),
+              Tab(text: 'Product'), // Second Tab
+            ],
+          ),
+        ),
+        drawer: const Drawer(),
+        body: TabBarView(
+          children: [
+            // New Arrivals tab with GridView
+            GridView.builder(
+              padding: const EdgeInsets.all(8.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Number of columns
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+                childAspectRatio: 0.7, // Adjust aspect ratio as needed
+              ),
+              itemCount: cartItems.length, // Use cartItems length
+              itemBuilder: (context, index) {
+                final item = cartItems[index]; // Get the cart item
 
-                              ),
-                            ],
+                return Card(
+                  elevation: 2,
+                  child: Column(
+                    children: [
+                      // Product image
+                      Container(
+                        padding: const EdgeInsets.all(0),
+                        child: SizedBox(
+                          height: 170, // Set the height of the image
+                          child: Image.network(
+                            item['image'],
+                            fit: BoxFit.cover, // Ensures the image fits within the container
                           ),
                         ),
                       ),
-                    ),
-                    Card(
-                      child: InkWell(
-                        onTap: (){},
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                          width: MediaQuery.of(context).size.width / 2,
-                          padding: const EdgeInsets.all(0),
-                          decoration: const BoxDecoration(),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 140,
-                                child: Image.network(
-                                  'https://limhongfashion.com/image/cache/catalog/Product/SHIRT/ARROW%20/ARROW%20LH2860%20(56)-600x773.jpg',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(height: 4,),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('view',style: TextStyle(color:Colors.purple,fontWeight: FontWeight.bold,fontSize: 16),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('Men is shirts',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('\$15',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                    Icon(Icons.favorite_border, size: 24),
-                                  ],
-                                ),
-
-                              ),
-                            ],
-                          ),
+                      const SizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['name'], // Display product name
+                              style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.purple),
+                              textAlign: TextAlign.start, // Align text to start
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    Card(
-                      child: InkWell(
-                        onTap: (){},
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                          width: MediaQuery.of(context).size.width / 2,
-                          padding: const EdgeInsets.all(0),
-                          decoration: const BoxDecoration(),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 140,
-                                child: Image.network(
-                                  'https://idpoor.gov.kh/wp-content/uploads/2022/07/Screenshot-from-2022-07-14-16-57-17.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(height: 4,),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('view',style: TextStyle(color:Colors.purple,fontWeight: FontWeight.bold,fontSize: 16),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('names main',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('\$25',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                    Icon(Icons.favorite_border, size: 24),
-                                  ],
-                                ),
-
-                              ),
-                            ],
-                          ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['detail'], // Display product detail
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.start, // Align text to start
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    Card(
-                      child: InkWell(
-                        onTap: (){},
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                          width: MediaQuery.of(context).size.width / 2,
-                          padding: const EdgeInsets.all(0),
-                          decoration: const BoxDecoration(),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 140,
-                                child: Image.network(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXixqXQu7AfjuVHTG0PosyKjY6-GtDlF2q6ecSWJ2ik5ZMcqgNJUwqzJjHgqIWu5mzfOI&usqp=CAU',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(height: 4,),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('view',style: TextStyle(color:Colors.purple,fontWeight: FontWeight.bold,fontSize: 16),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('Bé Chin Shop',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('\$20',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                    Icon(Icons.favorite_border, size: 24),
-                                  ],
-                                ),
-
-                              ),
-                            ],
-                          ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '\$${item['price'].toString()}', // Convert price to string
+                              style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
+                            ),
+                            const Icon(Icons.favorite_border, size: 24),
+                          ],
                         ),
-                      ),
-                    ),
-                    Card(
-                      child: InkWell(
-                        onTap: (){},
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                          width: MediaQuery.of(context).size.width / 2,
-                          padding: const EdgeInsets.all(0),
-                          decoration: const BoxDecoration(),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 140,
-                                child: Image.network(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS7w6iFmJ4Ijer3yz9pNAHTwC57pQWclCXTnelIa15bVbQ6_nEbASWqg_KW52qXzJtmF8&usqp=CAU',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(height: 4,),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('M',style: TextStyle(color:Colors.purple,fontWeight: FontWeight.bold,fontSize: 16),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('SM Printing ',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('\$14',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                    Icon(Icons.favorite_border, size: 24),
-                                  ],
-                                ),
-
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      child: InkWell(
-                        onTap: (){},
-                        child: Container(
-                          margin: EdgeInsets.fromLTRB(5, 0, 5, 5),
-                          width: MediaQuery.of(context).size.width / 2,
-                          padding: const EdgeInsets.all(0),
-                          decoration: const BoxDecoration(),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 100,
-                                width: 140,
-                                child: Image.network(
-                                  'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEip0HvQ1j22MUoOrQ13YqAeXQb-mGnhmzhyphenhyphenFKnriA9AdLPBM0ip6Mz_29MfBWq9L40q6rcrSeTXjQ2GkqaZjvDWF_JfCHfDWaIpZJ6lG4bwjlHF2wJ2wUUiMWwIjew9TivoSbfc1DQ04uQ/s1600/download+%25281%2529.jpg',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(height: 4,),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('T-shirt',style: TextStyle(color:Colors.purple,fontWeight: FontWeight.bold,fontSize: 16),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('Sell clothes',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                  ],
-                                ),
-                              ),
-                              const Flexible(
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('\$30',style: TextStyle(color:Colors.black54,fontWeight: FontWeight.bold,fontSize: 24),), // Escaped dollar sign
-                                    Icon(Icons.favorite_border, size: 24),
-                                  ],
-                                ),
-
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+            // Popular tab content
+            const Center(
+              child: Text('Popular Products Coming Soon'),
+            ),
+            const Center(
+              child: Text('Product Details Coming Soon'),
             ),
           ],
         ),
